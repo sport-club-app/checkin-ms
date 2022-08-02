@@ -17,7 +17,13 @@ type ResponsePartners struct {
 	IsActive   bool   `json:"isActive"`
 }
 
-func AccessRealaseService(id int, token []string) ResponsePartners {
+type StatusContract struct {
+	Status   string
+	Code     int16
+	IsActive bool
+}
+
+func AccessRealaseService(id int, token []string) StatusContract {
 
 	c := http.Client{Timeout: time.Duration(1) * time.Second}
 	requestURL := fmt.Sprintf("http://10.0.0.172:3001/v1/contracts/%d", id)
@@ -37,8 +43,19 @@ func AccessRealaseService(id int, token []string) ResponsePartners {
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
-	var result ResponsePartners
+	var result StatusContract
 	json.Unmarshal([]byte(body), &result)
 
-	return result
+	if !result.IsActive {
+		return StatusContract{
+			Status: "denied",
+			Code:   0,
+		}
+	}
+
+	return StatusContract{
+		Status: "authorized",
+		Code:   2,
+	}
+
 }

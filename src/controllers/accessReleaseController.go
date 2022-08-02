@@ -13,7 +13,10 @@ import (
 )
 
 func AccesReleaseController(w http.ResponseWriter, r *http.Request) {
+	GetStatus(w, r)
+}
 
+func GetStatus(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -24,5 +27,4 @@ func AccesReleaseController(w http.ResponseWriter, r *http.Request) {
 	tokenValidated := strings.Split(token[0], " ")
 	result := services.AccessRealaseService(id, tokenValidated)
 	json.NewEncoder(w).Encode(result)
-
 }
