@@ -44,15 +44,16 @@ func AccessRealaseService(id int, token []string) StatusContract {
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
+
 	var result StatusContract
 	json.Unmarshal([]byte(body), &result)
 
 	if !result.IsActive {
-		res := StatusContract{Status: "denied", Code: 0}
-		servicesKafka.Producer([]byte(fmt.Sprint(res)), "partner-contract-status")
+		servicesKafka.Producer(body, "partner-contract-status")
 		return StatusContract{Status: "denied", Code: 0}
 	}
 
+	servicesKafka.Producer(body, "checkin-count")
 	return StatusContract{Status: "authorized", Code: 2}
 
 }

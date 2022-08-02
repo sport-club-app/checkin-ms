@@ -2,7 +2,6 @@ package servicesKafka
 
 import (
 	configProducer "checkin/src/config/kafka"
-	"fmt"
 	"log"
 	"time"
 
@@ -11,8 +10,6 @@ import (
 )
 
 func Producer(message []byte, topic string) {
-
-	fmt.Println(message)
 
 	conn := configProducer.KafkaConfigProducer(topic)
 
