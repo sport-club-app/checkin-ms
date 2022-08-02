@@ -50,10 +50,10 @@ func AccessRealaseService(id int, token []string) StatusContract {
 
 	if !result.IsActive {
 		servicesKafka.Producer(body, "partner-contract-status")
-		return StatusContract{Status: "denied", Code: 0}
+		return StatusContract{Status: "denied", Code: 0, IsActive: false}
 	}
 
 	servicesKafka.Producer(body, "checkin-count")
-	return StatusContract{Status: "authorized", Code: 2}
+	return StatusContract{Status: "authorized", Code: 1, IsActive: true}
 
 }
