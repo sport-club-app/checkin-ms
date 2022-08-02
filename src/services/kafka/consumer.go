@@ -43,7 +43,7 @@ func SendMessage() {
 
 func Consumer(channel chan Message) {
 
-	_, reader := config.KafkaConfig()
+	_, reader := config.KafkaConfigConsumer()
 
 	for {
 		m, err := reader.ReadMessage(context.Background())

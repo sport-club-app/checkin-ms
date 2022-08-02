@@ -1,7 +1,8 @@
 package servicesKafka
 
 import (
-	config "checkin/src/config/kafka"
+	configProducer "checkin/src/config/kafka"
+	"fmt"
 	"log"
 	"time"
 
@@ -9,9 +10,11 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-func Producer(message []byte) {
+func Producer(message []byte, topic string) {
 
-	conn, _ := config.KafkaConfig()
+	fmt.Println(message)
+
+	conn := configProducer.KafkaConfigProducer(topic)
 
 	conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 	_, err := conn.WriteMessages(

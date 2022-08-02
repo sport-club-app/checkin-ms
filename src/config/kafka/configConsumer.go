@@ -10,7 +10,7 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-func KafkaConfig() (*kafka.Conn, *kafka.Reader) {
+func KafkaConfigConsumer() (*kafka.Conn, *kafka.Reader) {
 
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -18,9 +18,9 @@ func KafkaConfig() (*kafka.Conn, *kafka.Reader) {
 	}
 	broker_kafka := os.Getenv("BROKER_KAFKA")
 
-	topic := "partner-contact"
+	topic := "partner-contract"
 	partition := 0
-	groupId := "partners-group-id"
+	groupId := "partners-contract-group-id"
 	broker := broker_kafka
 
 	conn, err := kafka.DialLeader(context.Background(), "tcp", broker, topic, partition)

@@ -1,6 +1,7 @@
 package services
 
 import (
+	servicesKafka "checkin/src/services/kafka"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -47,15 +48,11 @@ func AccessRealaseService(id int, token []string) StatusContract {
 	json.Unmarshal([]byte(body), &result)
 
 	if !result.IsActive {
-		return StatusContract{
-			Status: "denied",
-			Code:   0,
-		}
+		res := StatusContract{Status: "denied", Code: 0}
+		servicesKafka.Producer([]byte(fmt.Sprint(res)), "partner-contract-status")
+		return StatusContract{Status: "denied", Code: 0}
 	}
 
-	return StatusContract{
-		Status: "authorized",
-		Code:   2,
-	}
+	return StatusContract{Status: "authorized", Code: 2}
 
 }

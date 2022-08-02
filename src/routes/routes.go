@@ -22,7 +22,6 @@ func Routes() *mux.Router {
 		json.NewEncoder(w).Encode(Response{Message: "checkin-ms is running", Date: now.Format(time.RFC822)})
 	})
 	router.HandleFunc("/access-release/{id}", controllers.AccesReleaseController).Methods("GET")
-	router.HandleFunc("/producer", controllers.CreateMessageController).Methods("POST")
 
 	return router
 }
